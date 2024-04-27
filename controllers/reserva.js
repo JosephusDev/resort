@@ -37,13 +37,24 @@ export const elimReserva = (req, res) => {
 }
 
 export const confirmarReserva = (req, res) => {
-    const query = "update reserva set estado = 'confirmada' where id = ?"
+    const queryReserva = "UPDATE reserva SET estado = 'confirmada' WHERE id = ?";
+    const queryQuarto = "UPDATE quarto SET estado = 'Ocupado' WHERE id = ?";
 
-    db.query(query, [req.params.id], (err, data) => {
-        if(err) return res.json(err)
-        return res.status(200).json(data)
-    })
-}
+    db.query(queryReserva, [req.params.id], (err, data) => {
+        if (err) {
+            return res.json(err);
+        } else {
+            db.query(queryQuarto, [req.params.id], (errQuarto, dataQuarto) => {
+                if (errQuarto) {
+                    return res.json(errQuarto);
+                } else {
+                    return res.status(200).json({ reserva: data, quarto: dataQuarto });
+                }
+            });
+        }
+    });
+};
+
 
 export const getReservas = (req, res) => {
     const query = "select * from ver_reservas order by cliente"
