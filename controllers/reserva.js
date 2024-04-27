@@ -38,7 +38,7 @@ export const elimReserva = (req, res) => {
 
 export const confirmarReserva = (req, res) => {
     const queryReserva = "UPDATE reserva SET estado = 'confirmada' WHERE id = ?";
-    const queryQuarto = "UPDATE quarto SET estado = 'Ocupado' WHERE id = ?";
+    const queryQuarto = "UPDATE quarto SET estado = 'Ocupado' WHERE id = (select id_quarto from reserva where id = ?)";
 
     db.query(queryReserva, [req.params.id], (err, data) => {
         if (err) {
