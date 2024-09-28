@@ -1,2 +1,2 @@
-# kimpexpress
-App mobile de rastreio de autocarros públicos escolares.
+# API Resort
+API - Backend do website de reservas de quartos de hotel e resort.
